@@ -1,0 +1,12 @@
+.title{
+    box-sizing: border-box;
+    background: #fff;
+    border-top: 4px solid #7f4cc1;
+    padding: 20px;
+}
+
+.title h2{
+    margin: 0;
+    color: black;
+    font-weight: 400;
+}
