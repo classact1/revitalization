@@ -64,7 +64,7 @@
 	
 	
 	//module requires
-	__webpack_require__(/*! ../public/assets//css/index.css */ 221);
+	__webpack_require__(/*! ../public/assets/css/index.css */ 221);
 	var Table = __webpack_require__(/*! ./table */ 225);
 	var Title = __webpack_require__(/*! ./title */ 228);
 	var Question = __webpack_require__(/*! ./question */ 231);
@@ -27042,40 +27042,98 @@
 	        return options;
 	      }
 	
+	      //preparing object to be sent to an API
+	      function prepareQuestion(e) {
+	        e.preventDefault();
+	        var form = e.target;
+	        var section = form.querySelector('select').value; //section to which user wants to add a question
+	
+	        var question = {
+	          name: '',
+	          answers: [],
+	          counts: ''
+	        };
+	
+	        //grabbing values from form and populating question object
+	        question.name = form.querySelector('#questionName').value;
+	        question.counts = form.querySelector('input[name="counts"]').checked;
+	        question.answers = Array.from(form.querySelectorAll('fieldset')).map(function (formData) {
+	          var answer = {};
+	          answer.name = formData.querySelector('input[name="answer"]').value;
+	          answer.points = formData.querySelector('input[name="points"]').value;
+	          answer.description = formData.querySelector('textarea[name="description"]').value;
+	
+	          return answer;
+	        });
+	
+	        return question;
+	      }
+	
+	      //sending form data to an API
+	      function handleSubmit(e) {
+	
+	        var question = prepareQuestion(e);
+	        console.log(question);
+	
+	        //console.log(section);
+	        //fetch('/api/question/'+section, {method: 'post'})
+	        //.then(response => response.json())
+	        //.then(result => this.setState({todos: result}));
+	        //Boolean(document.querySelector('input[name="counts"]:checked').value);
+	      }
+	
 	      return React.createElement(
-	        'div',
-	        null,
+	        'form',
+	        { method: 'post', onSubmit: handleSubmit, id: 'addQuestion' },
 	        React.createElement(
-	          'form',
-	          { method: 'post' },
+	          'label',
+	          null,
+	          'Dodaj pytanie:',
+	          React.createElement('input', { type: 'text', placeholder: 'Tre\u015B\u0107 pytania', id: 'questionName', required: true })
+	        ),
+	        React.createElement(
+	          'fieldset',
+	          null,
 	          React.createElement(
 	            'label',
 	            null,
-	            'Dodaj pytanie:'
+	            'Odpowied\u017A 1:',
+	            React.createElement('input', { type: 'text', name: 'answer' })
 	          ),
-	          React.createElement('br', null),
-	          React.createElement('input', { type: 'text', placeholder: 'Tre\u015B\u0107 pytania', required: true }),
-	          React.createElement('br', null),
 	          React.createElement(
 	            'label',
 	            null,
-	            'Odpowiedzi:'
+	            'Punkty do oceny:',
+	            React.createElement('input', { type: 'text', name: 'points' })
 	          ),
-	          React.createElement('br', null),
-	          React.createElement('input', { type: 'text', placeholder: 'Ka\u017Cda odpowied\u017A zako\u0144czona przecinkiem' }),
-	          React.createElement('br', null),
 	          React.createElement(
 	            'label',
 	            null,
-	            'Kategoria pytania:'
-	          ),
+	            'Opis odpowiedzi:',
+	            React.createElement('textarea', { name: 'description' })
+	          )
+	        ),
+	        React.createElement(
+	          'label',
+	          null,
+	          'Liczy si\u0119 do oceny: ',
 	          React.createElement('br', null),
+	          React.createElement('input', { type: 'radio', value: 'true', name: 'counts', defaultChecked: true }),
+	          'Tak',
+	          React.createElement('input', { type: 'radio', value: 'false', name: 'counts' }),
+	          'Nie'
+	        ),
+	        React.createElement(
+	          'label',
+	          null,
+	          'Kategoria pytania:',
 	          React.createElement(
 	            'select',
 	            { defaultValue: 'Wybierz z listy' },
 	            prepareOptions(this.state.sections)
 	          )
-	        )
+	        ),
+	        React.createElement('input', { type: 'submit', value: 'Dodaj pytanie', id: 'submitQuestion' })
 	      );
 	    }
 	  }]);
@@ -27126,7 +27184,7 @@
 	
 	
 	// module
-	exports.push([module.id, "label {\r\n  margin: 10px 0;\r\n}\r\n\r\ninput {\r\n  min-width: 200px;\r\n}\r\n", ""]);
+	exports.push([module.id, "#addQuestion label{\r\n  display: block;\r\n  margin: 10px auto;\r\n}\r\n\r\n#addQuestion input[type=\"text\"] {\r\n  display: block;\r\n  margin: 10px auto;\r\n  min-width: 200px;\r\n}\r\n\r\n#addQuestion textarea {\r\n  display: block;\r\n  margin: 10px auto;\r\n  width: 200px;\r\n  max-width: 200px;\r\n}\r\n\r\n#addQuestion select {\r\n  display: block;\r\n  margin: 10px auto;\r\n}\r\n\r\n#addQuestion > #submitQuestion {\r\n  margin-top: 20px;\r\n}\r\n\r\n#addQuestion input[type=\"radio\"] {\r\n  display: inline;\r\n  width: auto;\r\n}\r\n", ""]);
 	
 	// exports
 

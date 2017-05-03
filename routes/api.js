@@ -5,12 +5,13 @@ const Section = require('../models/section');
 
 //add a new question to the section specified by route parameter
 router.post('/question/:section', function(req, res, next){
-  Section.findOne({name: req.params.section}).then(function(result){
-    result.questions.push(req.body);
-    result.save().then(function(question){
-      res.send(question);
-    });
-  }).catch(next);
+  console.log(req.params.section);
+  // Section.findOne({name: req.params.section}).then(function(result){
+  //   result.questions.push(req.body);
+  //   result.save().then(function(question){
+  //     res.send(question);
+  //   });
+  // }).catch(next);
 });
 
 //add a new section of questions to the db

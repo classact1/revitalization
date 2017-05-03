@@ -1,19 +1,21 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const AnswerSchema = require('./question');
 
-//create ninja Schema & model
-const QuestionSchema = new Schema({
+//create answer schema
+const AnswerSchema = new Schema({
   name: {
     type: String,
     required: [true, 'Name field is required']
   },
-  answers: [AnswerSchema],
-  counts: {
-    type: Boolean
+  points: {
+    type: Number
+  },
+  description: {
+    type: String,
+    required: [true, 'Description field is required']
   }
 });
 
 //const Question = mongoose.model('question', QuestionSchema);
 
-module.exports = QuestionSchema;
+module.exports = AnswerSchema;

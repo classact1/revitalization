@@ -3,7 +3,7 @@ const ReactDOM = require('react-dom');
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 //module requires
-require('../public/assets//css/index.css');
+require('../public/assets/css/index.css');
 let Table = require('./table');
 let Title = require('./title');
 let Question = require('./question');
