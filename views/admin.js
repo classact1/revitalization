@@ -1,14 +1,18 @@
 const React = require('react');
 require('../public/assets/css/admin.css');
 
+let Answer = require('./answer');
+
 class Admin extends React.Component{
   constructor(){
       super();
       this.state={
-          sections: []
+          sections: [],
+          questionsNumber: 2
       }
   }
 
+  //api call to get section names and put them in state
   componentDidMount(){
     fetch('/api/section') // fetch from Express server
      .then(response => response.json())
@@ -17,6 +21,17 @@ class Admin extends React.Component{
 
   render(){
 
+    //getting amount of answers from state and rendering them
+    function prepareAnswers(howMany){
+      var answers = [];
+
+      for(var i = 0 ; i < howMany ; i++)
+        answers.push(<Answer num={i+1} key={i}/>)
+
+      return answers;
+    }
+
+    //displaying sections as options in select box
     function prepareOptions(data){
       var options = data.map((option, index) => <option key={index}>{option.name}</option>)
 
@@ -60,7 +75,6 @@ class Admin extends React.Component{
       //fetch('/api/question/'+section, {method: 'post'})
        //.then(response => response.json())
        //.then(result => this.setState({todos: result}));
-      //Boolean(document.querySelector('input[name="counts"]:checked').value);
     }
 
     return(
@@ -71,20 +85,7 @@ class Admin extends React.Component{
             <input type="text" placeholder="Treść pytania" id="questionName" required/>
           </label>
 
-          <fieldset>
-            <label>
-              Odpowiedź 1:
-              <input type="text" name="answer"/>
-            </label>
-            <label>
-              Punkty do oceny:
-              <input type="text" name="points"/>
-            </label>
-            <label>
-              Opis odpowiedzi:
-              <textarea name="description"></textarea>
-            </label>
-          </fieldset>
+          {prepareAnswers(this.state.questionsNumber)}
 
           <label>
             Liczy się do oceny: <br/>

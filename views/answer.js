@@ -12,12 +12,18 @@ class Answer extends React.Component{
   render(){
     return(
       <fieldset>
-        <label>Odpowiedź 1:</label>
-        <input type="text"></input>
-        <label>Punkty do oceny:</label>
-        <input type="text"></input>
-        <label>Opis odpowiedzi:</label>
-        <textarea></textarea>
+        <label>
+          Odpowiedź {this.props.num}:
+          <input type="text" name="answer"/>
+        </label>
+        <label>
+          Punkty do oceny:
+          <input type="number" name="points"/>
+        </label>
+        <label>
+            Opis odpowiedzi:
+            <div className="description"><textarea name="description"></textarea></div>
+        </label>
       </fieldset>
     )
   }

@@ -27000,6 +27000,8 @@
 	var React = __webpack_require__(/*! react */ 3);
 	__webpack_require__(/*! ../public/assets/css/admin.css */ 235);
 	
+	var Answer = __webpack_require__(/*! ./answer */ 237);
+	
 	var Admin = function (_React$Component) {
 	  _inherits(Admin, _React$Component);
 	
@@ -27009,7 +27011,8 @@
 	    var _this = _possibleConstructorReturn(this, (Admin.__proto__ || Object.getPrototypeOf(Admin)).call(this));
 	
 	    _this.state = {
-	      sections: []
+	      sections: [],
+	      questionsNumber: 2
 	    };
 	    return _this;
 	  }
@@ -27029,6 +27032,14 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	
+	      function prepareAnswers(howMany) {
+	        var answers = [];
+	
+	        for (var i = 0; i < howMany; i++) {
+	          answers.push(React.createElement(Answer, { num: i + 1, key: i }));
+	        }return answers;
+	      }
 	
 	      function prepareOptions(data) {
 	        var options = data.map(function (option, index) {
@@ -27060,7 +27071,7 @@
 	        question.answers = Array.from(form.querySelectorAll('fieldset')).map(function (formData) {
 	          var answer = {};
 	          answer.name = formData.querySelector('input[name="answer"]').value;
-	          answer.points = formData.querySelector('input[name="points"]').value;
+	          answer.points = Number(formData.querySelector('input[name="points"]').value);
 	          answer.description = formData.querySelector('textarea[name="description"]').value;
 	
 	          return answer;
@@ -27079,7 +27090,6 @@
 	        //fetch('/api/question/'+section, {method: 'post'})
 	        //.then(response => response.json())
 	        //.then(result => this.setState({todos: result}));
-	        //Boolean(document.querySelector('input[name="counts"]:checked').value);
 	      }
 	
 	      return React.createElement(
@@ -27091,28 +27101,7 @@
 	          'Dodaj pytanie:',
 	          React.createElement('input', { type: 'text', placeholder: 'Tre\u015B\u0107 pytania', id: 'questionName', required: true })
 	        ),
-	        React.createElement(
-	          'fieldset',
-	          null,
-	          React.createElement(
-	            'label',
-	            null,
-	            'Odpowied\u017A 1:',
-	            React.createElement('input', { type: 'text', name: 'answer' })
-	          ),
-	          React.createElement(
-	            'label',
-	            null,
-	            'Punkty do oceny:',
-	            React.createElement('input', { type: 'text', name: 'points' })
-	          ),
-	          React.createElement(
-	            'label',
-	            null,
-	            'Opis odpowiedzi:',
-	            React.createElement('textarea', { name: 'description' })
-	          )
-	        ),
+	        prepareAnswers(this.state.questionsNumber),
 	        React.createElement(
 	          'label',
 	          null,
@@ -27184,7 +27173,129 @@
 	
 	
 	// module
-	exports.push([module.id, "#addQuestion label{\r\n  display: block;\r\n  margin: 10px auto;\r\n}\r\n\r\n#addQuestion input[type=\"text\"] {\r\n  display: block;\r\n  margin: 10px auto;\r\n  min-width: 200px;\r\n}\r\n\r\n#addQuestion textarea {\r\n  display: block;\r\n  margin: 10px auto;\r\n  width: 200px;\r\n  max-width: 200px;\r\n}\r\n\r\n#addQuestion select {\r\n  display: block;\r\n  margin: 10px auto;\r\n}\r\n\r\n#addQuestion > #submitQuestion {\r\n  margin-top: 20px;\r\n}\r\n\r\n#addQuestion input[type=\"radio\"] {\r\n  display: inline;\r\n  width: auto;\r\n}\r\n", ""]);
+	exports.push([module.id, "#addQuestion label{\r\n  display: block;\r\n  margin: 10px auto;\r\n}\r\n\r\n#addQuestion input[type=\"text\"], input[type=\"number\"] {\r\n  display: block;\r\n  margin: 10px auto;\r\n  min-width: 200px;\r\n}\r\n\r\n#addQuestion textarea {\r\n  /*display: block;*/\r\n  /*margin: 10px auto;*/\r\n  width: 200px;\r\n  max-width: 200px;\r\n}\r\n\r\n.description {\r\n  margin: 10px auto;\r\n}\r\n\r\n#addQuestion select {\r\n  display: block;\r\n  margin: 10px auto;\r\n}\r\n\r\n#submitQuestion {\r\n  margin-top: 20px;\r\n}\r\n\r\n#addQuestion input[type=\"radio\"] {\r\n  display: inline;\r\n  width: auto;\r\n}\r\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 237 */
+/*!*************************!*\
+  !*** ./views/answer.js ***!
+  \*************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var React = __webpack_require__(/*! react */ 3);
+	__webpack_require__(/*! ../public/assets/css/answer.css */ 238);
+	
+	var Answer = function (_React$Component) {
+	  _inherits(Answer, _React$Component);
+	
+	  function Answer() {
+	    _classCallCheck(this, Answer);
+	
+	    return _possibleConstructorReturn(this, (Answer.__proto__ || Object.getPrototypeOf(Answer)).apply(this, arguments));
+	  }
+	
+	  _createClass(Answer, [{
+	    key: 'render',
+	
+	    // constructor(){
+	    //     super();
+	    //     this.state={
+	    //         sections: []
+	    //     }
+	    // }
+	
+	    value: function render() {
+	      return React.createElement(
+	        'fieldset',
+	        null,
+	        React.createElement(
+	          'label',
+	          null,
+	          'Odpowied\u017A ',
+	          this.props.num,
+	          ':',
+	          React.createElement('input', { type: 'text', name: 'answer' })
+	        ),
+	        React.createElement(
+	          'label',
+	          null,
+	          'Punkty do oceny:',
+	          React.createElement('input', { type: 'number', name: 'points' })
+	        ),
+	        React.createElement(
+	          'label',
+	          null,
+	          'Opis odpowiedzi:',
+	          React.createElement(
+	            'div',
+	            { className: 'description' },
+	            React.createElement('textarea', { name: 'description' })
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Answer;
+	}(React.Component);
+	
+	module.exports = Answer;
+
+/***/ },
+/* 238 */
+/*!**************************************!*\
+  !*** ./public/assets/css/answer.css ***!
+  \**************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(/*! !../../../~/css-loader!./answer.css */ 239);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(/*! ../../../~/style-loader/addStyles.js */ 224)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../../../node_modules/css-loader/index.js!./answer.css", function() {
+				var newContent = require("!!../../../node_modules/css-loader/index.js!./answer.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 239 */
+/*!*****************************************************!*\
+  !*** ./~/css-loader!./public/assets/css/answer.css ***!
+  \*****************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(/*! ../../../~/css-loader/lib/css-base.js */ 223)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "fieldset label, input {\r\n  display: block;\r\n}\r\n", ""]);
 	
 	// exports
 

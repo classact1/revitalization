@@ -3,17 +3,21 @@
   margin: 10px auto;
 }
 
-#addQuestion input[type="text"] {
+#addQuestion input[type="text"], input[type="number"] {
   display: block;
   margin: 10px auto;
   min-width: 200px;
 }
 
 #addQuestion textarea {
-  display: block;
-  margin: 10px auto;
+  /*display: block;*/
+  /*margin: 10px auto;*/
   width: 200px;
   max-width: 200px;
+}
+
+.description {
+  margin: 10px auto;
 }
 
 #addQuestion select {
@@ -21,7 +25,7 @@
   margin: 10px auto;
 }
 
-#addQuestion > #submitQuestion {
+#submitQuestion {
   margin-top: 20px;
 }
 
