@@ -27017,6 +27017,9 @@
 	    return _this;
 	  }
 	
+	  //api call to get section names and put them in state
+	
+	
 	  _createClass(Admin, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
@@ -27033,6 +27036,7 @@
 	    key: 'render',
 	    value: function render() {
 	
+	      //getting amount of answers from state and rendering them
 	      function prepareAnswers(howMany) {
 	        var answers = [];
 	
@@ -27041,6 +27045,7 @@
 	        }return answers;
 	      }
 	
+	      //displaying sections as options in select box
 	      function prepareOptions(data) {
 	        var options = data.map(function (option, index) {
 	          return React.createElement(
@@ -27053,10 +27058,17 @@
 	        return options;
 	      }
 	
-	      //preparing object to be sent to an API
-	      function prepareQuestion(e) {
+	      //
+	      function addAnswerFields(e) {
 	        e.preventDefault();
-	        var form = e.target;
+	        this.setState(function (prevState, props) {
+	          return { questionsNumber: prevState.questionsNumber + 1 };
+	        });
+	      }
+	
+	      //preparing object to be sent to an API
+	      function prepareQuestion(event) {
+	        var form = event.target;
 	        var section = form.querySelector('select').value; //section to which user wants to add a question
 	
 	        var question = {
@@ -27082,7 +27094,7 @@
 	
 	      //sending form data to an API
 	      function handleSubmit(e) {
-	
+	        e.preventDefault();
 	        var question = prepareQuestion(e);
 	        console.log(question);
 	
@@ -27102,6 +27114,11 @@
 	          React.createElement('input', { type: 'text', placeholder: 'Tre\u015B\u0107 pytania', id: 'questionName', required: true })
 	        ),
 	        prepareAnswers(this.state.questionsNumber),
+	        React.createElement(
+	          'button',
+	          { onClick: addAnswerFields.bind(this) },
+	          'Dodaj kolejn\u0105 odpowied\u017A'
+	        ),
 	        React.createElement(
 	          'label',
 	          null,

@@ -38,10 +38,17 @@ class Admin extends React.Component{
       return options;
     }
 
-    //preparing object to be sent to an API
-    function prepareQuestion(e){
+    //
+    function addAnswerFields(e){
       e.preventDefault();
-      var form = e.target;
+      this.setState((prevState, props) => {
+        return {questionsNumber: prevState.questionsNumber + 1};
+      });
+    }
+
+    //preparing object to be sent to an API
+    function prepareQuestion(event){
+      var form = event.target;
       var section = form.querySelector('select').value; //section to which user wants to add a question
 
       var question = {
@@ -67,7 +74,7 @@ class Admin extends React.Component{
 
     //sending form data to an API
     function handleSubmit(e){
-
+      e.preventDefault();
       var question = prepareQuestion(e);
       console.log(question);
 
@@ -86,6 +93,8 @@ class Admin extends React.Component{
           </label>
 
           {prepareAnswers(this.state.questionsNumber)}
+
+          <button onClick={addAnswerFields.bind(this)}>Dodaj kolejną odpowiedź</button>
 
           <label>
             Liczy się do oceny: <br/>
