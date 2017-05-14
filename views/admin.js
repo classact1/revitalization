@@ -91,6 +91,10 @@ class Admin extends React.Component{
             Dodaj pytanie:
             <input type="text" placeholder="Treść pytania" id="questionName" required/>
           </label>
+          <label>
+            Dodaj pytanie:
+            <input type="text" placeholder="Treść pytania" id="questionName" required/>
+          </label>
 
           {prepareAnswers(this.state.questionsNumber)}
 
