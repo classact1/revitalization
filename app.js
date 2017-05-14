@@ -21,7 +21,7 @@ app.use(express.static('./public'));
 //body parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-    extended: false
+    extended: true
 }));
 
 //use routes middleware on /api route

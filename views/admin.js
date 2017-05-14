@@ -76,21 +76,28 @@ class Admin extends React.Component{
     function handleSubmit(e){
       e.preventDefault();
       var question = prepareQuestion(e);
-      console.log(question);
+      var section = document.querySelector('select').value;
 
-      //console.log(section);
-      //fetch('/api/question/'+section, {method: 'post'})
-       //.then(response => response.json())
-       //.then(result => this.setState({todos: result}));
+      // fetch('/api/question/'+section, {method: 'POST', body: JSON.stringify(question)})
+      //  .then(response => response.json())
+
+      var myHeaders = new Headers();
+      myHeaders.append('Content-Type', 'application/json');
+
+       fetch('/api/question/'+section, {
+           method: 'POST',
+           headers: myHeaders,
+           mode: 'same-origin',
+           cache: 'default',
+           body: JSON.stringify(question)
+       })
+        .then(response => response.json())
+        .then(result => console.log(result))
     }
 
     return(
         <form method="post" onSubmit={handleSubmit} id="addQuestion">
 
-          <label>
-            Dodaj pytanie:
-            <input type="text" placeholder="Treść pytania" id="questionName" required/>
-          </label>
           <label>
             Dodaj pytanie:
             <input type="text" placeholder="Treść pytania" id="questionName" required/>
@@ -108,7 +115,7 @@ class Admin extends React.Component{
 
           <label>
             Kategoria pytania:
-            <select defaultValue = "Wybierz z listy">
+            <select>
               {prepareOptions(this.state.sections)}
             </select>
           </label>
