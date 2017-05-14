@@ -38,7 +38,7 @@ class Admin extends React.Component{
       return options;
     }
 
-    //
+    //button handler for adding more answers to a question
     function addAnswerFields(e){
       e.preventDefault();
       this.setState((prevState, props) => {
