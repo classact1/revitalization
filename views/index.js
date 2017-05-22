@@ -16,44 +16,50 @@ var App = React.createClass({
               <div>
                   <Route exact path={'/'} component={Revit}></Route>
                   <Route path={'/admin'} component={Admin}></Route>
-                </div>
+              </div>
            </Router>
        )
    }
 });
 
 class Revit extends React.Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state={
-            questions: []
-        }
+            data: [],
+            section: ''
+        };
+        this.onChange = this.onChange.bind(this);
     }
 
     componentDidMount(){
-      fetch('/api/data') // fetch from Express server
+      fetch('/api/section') // fetch from Express server
        .then(response => response.json())
-       .then(result => this.setState({ questions: result }));
+       .then(result => this.setState({ data: result }));
     }
 
     //map questions
     prepareQuestions(data){
+      console.log(data);
+      var questions = data;
+      questions = questions.map(function(question,index){
+          return(
+              <Question content = {question} key = {index}/>
+          );
+      });
 
-        var questions = data;
-        questions = questions.map(function(question,index){
-            return(
-                <Question content = {question} key = {index}/>
-            );
-        });
+      return questions;
+    }
 
-        return questions;
+    onChange(value){
+      this.setState({section: value});
     }
 
     render(){
         return (
           <div>
-            <Title/>
-            {this.prepareQuestions(this.state.questions)}
+            <Title sections={this.state.data} onChange={this.onChange}/>
+            {this.prepareQuestions(this.state.data)}
             <Link to="/admin">Admin</Link>
           </div>
         )
