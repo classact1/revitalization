@@ -9,9 +9,23 @@ h1{
 }
 
 #container{
-    margin-top: 50px;
     border-radius: 2px;
     box-shadow: 1px 3px 5px rgba(0,0,0,0.2);
     padding-bottom: 20px;
     background: #fff;
+    max-width: 800px;
+    margin: 50px auto;
+    position: relative;
+    border-top: 4px solid #7f4cc1;
+}
+
+.btn {
+  margin-top: 20px;
+  border: 2px solid #40127c;
+}
+
+@media (max-width: 576px) {
+    #container{
+      margin: 0 auto;
+    }
 }
