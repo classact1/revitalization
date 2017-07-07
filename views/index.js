@@ -8,6 +8,7 @@ let Table = require('./table');
 let Title = require('./title');
 let Question = require('./question');
 let Admin = require('./admin');
+let Modal = require('./modal');
 
 var App = React.createClass({
    render: function(){
@@ -27,9 +28,13 @@ class Revit extends React.Component{
         super(props);
         this.state={
             data: [],
-            section: ''
+            section: 'Ocena stanu formalno-prawnego',
+            isModalOpen: false,
+            modalData: []
         };
         this.onChange = this.onChange.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
+        this.showModal = this.showModal.bind(this);
     }
 
     componentDidMount(){
@@ -39,28 +44,42 @@ class Revit extends React.Component{
     }
 
     //map questions
-    prepareQuestions(data){
-      console.log(data);
-      var questions = data;
-      questions = questions.map(function(question,index){
-          return(
-              <Question content = {question} key = {index}/>
-          );
-      });
-
-      return questions;
+    prepareQuestions(){
+      for(var i = 0 ; i < this.state.data.length ; i++)
+        if(this.state.data[i].name == this.state.section){
+          var questions = this.state.data[i].questions;
+          questions = questions.map((question,index) => {
+              return(
+                  <Question content = {question} key = {index} onClick={this.showModal}/>
+              );
+          });
+          return questions;
+        }
     }
 
     onChange(value){
       this.setState({section: value});
     }
 
+    //showing and hiding modal box
+    toggleModal(){
+      this.setState((prevState, props) => {
+        return {isModalOpen: !prevState.isModalOpen};
+      })
+    }
+
+    showModal(answers){
+      this.setState({isModalOpen: true, modalData: answers});
+    }
+
     render(){
         return (
-          <div>
+          <div className="container-fluid">
             <Title sections={this.state.data} onChange={this.onChange}/>
-            {this.prepareQuestions(this.state.data)}
-            <Link to="/admin">Admin</Link>
+            {this.prepareQuestions()}
+            <Link to="/admin"></Link>
+            <Modal isOpen={this.state.isModalOpen} close={this.toggleModal} answers={this.state.modalData}/>
+            <button type="button" className="btn btn-default">Zakończ ocenianie</button>
           </div>
         )
     }
