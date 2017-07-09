@@ -10,8 +10,8 @@ let Question = require('./question');
 let Admin = require('./admin');
 let Modal = require('./modal');
 
-var App = React.createClass({
-   render: function(){
+class App extends React.Component{
+   render(){
        return(
            <Router>
               <div>
@@ -21,7 +21,7 @@ var App = React.createClass({
            </Router>
        )
    }
-});
+}
 
 class Revit extends React.Component{
     constructor(props){
@@ -30,20 +30,30 @@ class Revit extends React.Component{
             data: [],
             section: 'Ocena stanu formalno-prawnego',
             isModalOpen: false,
-            modalData: []
+            modalData: [],
+            savedAnswers: []
         };
         this.onChange = this.onChange.bind(this);
-        this.toggleModal = this.toggleModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
         this.showModal = this.showModal.bind(this);
     }
 
+    //fetching data from database
     componentDidMount(){
       fetch('/api/section') // fetch from Express server
-       .then(response => response.json())
-       .then(result => this.setState({ data: result }));
+        .then(response => response.json())
+        .then(result => this.setState({data: result}));
+
+      fetch('/api/questions') // fetch from Express server
+        .then(response => response.json())
+        .then(result => {
+          let questionsObject = {};
+          result.forEach(question => questionsObject[question] = '');
+          this.setState({savedAnswers: questionsObject});
+        });
     }
 
-    //map questions
+    //map questions based on chosen group
     prepareQuestions(){
       for(var i = 0 ; i < this.state.data.length ; i++)
         if(this.state.data[i].name == this.state.section){
@@ -57,17 +67,22 @@ class Revit extends React.Component{
         }
     }
 
+    //passed to Title component to change questions based on chosen group
     onChange(value){
       this.setState({section: value});
+      this.saveAnswer();
     }
 
-    //showing and hiding modal box
-    toggleModal(){
-      this.setState((prevState, props) => {
-        return {isModalOpen: !prevState.isModalOpen};
-      })
+    saveAnswer(answer){
+      
     }
 
+    //passed to Modal component to close it when X is clicked
+    closeModal(){
+      this.setState({isModalOpen: false});
+    }
+
+    //passed to Question component to show modal and set its content
     showModal(answers){
       this.setState({isModalOpen: true, modalData: answers});
     }
@@ -78,8 +93,9 @@ class Revit extends React.Component{
             <Title sections={this.state.data} onChange={this.onChange}/>
             {this.prepareQuestions()}
             <Link to="/admin"></Link>
-            <Modal isOpen={this.state.isModalOpen} close={this.toggleModal} answers={this.state.modalData}/>
+            <Modal isOpen={this.state.isModalOpen} close={this.closeModal} answers={this.state.modalData}/>
             <button type="button" className="btn btn-default">Zakończ ocenianie</button>
+            <Link to="/admin">Admin</Link>
           </div>
         )
     }

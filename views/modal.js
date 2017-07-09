@@ -22,7 +22,7 @@ class Modal extends React.Component{
           let answers = this.props.answers;
           let description = answers.map((answer, index) => {
             return (
-              <div>
+              <div key={index}>
                 <h1>{answer.name}</h1>
                 <p>{answer.description}</p>
               </div>

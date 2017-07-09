@@ -6,6 +6,10 @@ class Question extends React.Component{
   constructor(props){
       super(props);
       this.handleClick = this.handleClick.bind(this);
+      this.handleChange = this.handleChange.bind(this);
+      this.state = {
+        value: 'Wybierz ocenę'
+      }
   }
 
     prepareOptions(data){
@@ -13,7 +17,7 @@ class Question extends React.Component{
         var options = data;
         options = options.map(function(option,index){
             return(
-                <option key={index}>{option.name}</option>
+                <option key={index} value={option.name}>{option.name}</option>
             );
         });
 
@@ -22,6 +26,10 @@ class Question extends React.Component{
 
     handleClick(){
       this.props.onClick(this.props.content.answers);
+    }
+
+    handleChange(event) {
+      this.setState({value: event.target.value});
     }
 
     render(){
@@ -34,8 +42,8 @@ class Question extends React.Component{
                   <i className="fa fa-question-circle" aria-hidden="true" onClick={this.handleClick} ></i>
                 </div>
                 <div className="col-xs-3 options">
-                    <select name="" id="" className="styled-select">
-                      <option>Wybierz ocenę</option>
+                    <select className="styled-select" value={this.state.value} onChange={this.handleChange}>
+                      <option  value="Wybierz ocenę">Wybierz ocenę</option>
                       {this.prepareOptions(this.props.content.answers)}
                     </select>
                 </div>
