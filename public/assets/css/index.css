@@ -14,6 +14,7 @@ h1{
     padding-bottom: 20px;
     background: #fff;
     max-width: 800px;
+    height: auto;
     margin: 50px auto;
     position: relative;
     border-top: 4px solid #7f4cc1;
