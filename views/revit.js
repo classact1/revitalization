@@ -1,5 +1,4 @@
 const React = require('react');
-const ReactDOM = require('react-dom');
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 //module requires
@@ -10,19 +9,6 @@ let Question = require('./question');
 let Admin = require('./admin');
 let Modal = require('./modal');
 
-class App extends React.Component{
-   render(){
-       return(
-           <Router>
-              <div>
-                  <Route exact path={'/'} component={Revit}></Route>
-                  <Route path={'/admin'} component={Admin}></Route>
-              </div>
-           </Router>
-       )
-   }
-}
-
 class Revit extends React.Component{
     constructor(props){
         super(props);
@@ -31,11 +17,12 @@ class Revit extends React.Component{
             section: 'Ocena stanu formalno-prawnego',
             isModalOpen: false,
             modalData: [],
-            savedAnswers: []
+            savedAnswers: {}
         };
         this.onChange = this.onChange.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.showModal = this.showModal.bind(this);
+        this.saveAnswer = this.saveAnswer.bind(this);
     }
 
     //fetching data from database
@@ -60,7 +47,7 @@ class Revit extends React.Component{
           var questions = this.state.data[i].questions;
           questions = questions.map((question,index) => {
               return(
-                  <Question content = {question} key = {index} onClick={this.showModal}/>
+                  <Question content = {question} key = {index} onClick={this.showModal} onChange={this.saveAnswer}/>
               );
           });
           return questions;
@@ -70,11 +57,13 @@ class Revit extends React.Component{
     //passed to Title component to change questions based on chosen group
     onChange(value){
       this.setState({section: value});
-      this.saveAnswer();
     }
 
-    saveAnswer(answer){
-      
+    saveAnswer(question, answer){
+      //creating deep copy of savedAnswers object to modify it
+      const answers = JSON.parse(JSON.stringify(this.state.savedAnswers));
+      answers[question] = answer;
+      this.setState({savedAnswers: answers});
     }
 
     //passed to Modal component to close it when X is clicked
@@ -102,4 +91,4 @@ class Revit extends React.Component{
 
 };
 
-ReactDOM.render(<App/>, document.getElementById('container'));
+module.exports = Revit;

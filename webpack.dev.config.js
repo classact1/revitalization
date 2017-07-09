@@ -3,7 +3,7 @@ const webpack = require('webpack');
 
 module.exports = {
 
-    entry: [path.resolve(__dirname,'views/index.js'), 'webpack-hot-middleware/client', 'webpack/hot/dev-server'],
+    entry: [path.resolve(__dirname,'views/app.js'), 'webpack-hot-middleware/client', 'webpack/hot/dev-server'],
     output: {
         path: '/',
         filename: 'bundle.js',

@@ -7,6 +7,7 @@ class Question extends React.Component{
       super(props);
       this.handleClick = this.handleClick.bind(this);
       this.handleChange = this.handleChange.bind(this);
+      //this.handleOptionClick = this.handleOptionClick.bind(this);
       this.state = {
         value: 'Wybierz ocenę'
       }
@@ -15,11 +16,9 @@ class Question extends React.Component{
     prepareOptions(data){
 
         var options = data;
-        options = options.map(function(option,index){
-            return(
-                <option key={index} value={option.name}>{option.name}</option>
-            );
-        });
+        options = options.map((option,index) =>
+          <option key={index} value={option.name} data-points={option.points}>{option.name}</option>
+        );
 
         return options;
     }
@@ -30,6 +29,8 @@ class Question extends React.Component{
 
     handleChange(event) {
       this.setState({value: event.target.value});
+      //points associated with selected answer are passed to function
+      this.props.onChange(this.props.content.name, Number(event.target.childNodes[event.target.selectedIndex].dataset.points));
     }
 
     render(){
