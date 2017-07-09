@@ -10,7 +10,7 @@ var app = express();
 var webpackDevHelper = require('./index.dev.js');
 
 //connect to mongodb
-mongoose.connect('mongodb://localhost/revit');
+mongoose.connect('mongodb://classact:twojastara666@ds163667.mlab.com:63667/revitalization');
 
 //use ES6 global promises
 mongoose.Promise = global.Promise;
