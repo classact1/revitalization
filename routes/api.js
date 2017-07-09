@@ -28,4 +28,11 @@ router.get('/section', function(req, res, next){
   });
 });
 
+//get question names from db
+router.get('/questions', function(req, res, next){
+  Section.distinct('questions.name').then(function(questions){
+    res.send(questions);
+  });
+});
+
 module.exports = router;
