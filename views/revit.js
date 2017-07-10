@@ -35,20 +35,21 @@ class Revit extends React.Component{
         .then(response => response.json())
         .then(result => {
           let questionsObject = {};
-          result.forEach(question => questionsObject[question] = '');
+          result.forEach(question => questionsObject[question] = {answer: '', points: ''});
           this.setState({savedAnswers: questionsObject});
         });
     }
 
     //map questions based on chosen group
     prepareQuestions(){
-      for(var i = 0 ; i < this.state.data.length ; i++)
+      for(let i = 0 ; i < this.state.data.length ; i++)
         if(this.state.data[i].name == this.state.section){
-          var questions = this.state.data[i].questions;
+          let questions = this.state.data[i].questions;
           questions = questions.map((question,index) => {
-              return(
-                  <Question content = {question} key = {index} onClick={this.showModal} onChange={this.saveAnswer}/>
-              );
+            const savedSelected = this.state.savedAnswers[question.name].answer;
+            return(
+                <Question content = {question} key = {question.name} onClick={this.showModal} onChange={this.saveAnswer} selected={savedSelected}/>
+            );
           });
           return questions;
         }
@@ -59,10 +60,12 @@ class Revit extends React.Component{
       this.setState({section: value});
     }
 
-    saveAnswer(question, answer){
+    //passed to Question component to save answer each time it is selected
+    saveAnswer(question, answer, points){
       //creating deep copy of savedAnswers object to modify it
       const answers = JSON.parse(JSON.stringify(this.state.savedAnswers));
-      answers[question] = answer;
+      answers[question].points = points;
+      answers[question].answer = answer;
       this.setState({savedAnswers: answers});
     }
 
@@ -84,7 +87,7 @@ class Revit extends React.Component{
             <Link to="/admin"></Link>
             <Modal isOpen={this.state.isModalOpen} close={this.closeModal} answers={this.state.modalData}/>
             <button type="button" className="btn btn-default">Zakończ ocenianie</button>
-            <Link to="/admin">Admin</Link>
+            <Link to="/admin"></Link>
           </div>
         )
     }
