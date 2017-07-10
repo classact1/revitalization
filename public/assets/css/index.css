@@ -25,6 +25,11 @@ h1{
   border: 2px solid #40127c;
 }
 
+.btn:hover {
+  background-color: #f0e5ff;
+  border-color: #7f4cc1;
+}
+
 @media (max-width: 576px) {
     #container{
       margin: 0 auto;

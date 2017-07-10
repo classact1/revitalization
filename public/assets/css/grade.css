@@ -1,0 +1,28 @@
+.gradeContainer{
+  padding: 20px 0;
+}
+
+.grade{
+  margin-top: 0px;
+  display: inline-block;
+  font-weight: 400;
+  font-size: 140px;
+  color: #7f4cc1;
+  transform: translateX(30px);
+}
+
+span{
+  font-size: 60px;
+  color: #7f4cc1;
+  display: inline-block;
+  transform: translateX(30px);
+}
+
+.gradeDescription{
+  font-size: 50px;
+  margin-top: 0;
+}
+
+.advice{
+  font-size: 30px;
+}

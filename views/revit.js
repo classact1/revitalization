@@ -86,8 +86,8 @@ class Revit extends React.Component{
             {this.prepareQuestions()}
             <Link to="/admin"></Link>
             <Modal isOpen={this.state.isModalOpen} close={this.closeModal} answers={this.state.modalData}/>
-            <button type="button" className="btn btn-default">Zakończ ocenianie</button>
-            <Link to="/admin"></Link>
+
+            <Link to="/grade" className="btn btn-default">Zakończ ocenianie</Link>
           </div>
         )
     }
@@ -95,3 +95,4 @@ class Revit extends React.Component{
 };
 
 module.exports = Revit;
+//<button type="button" className="btn btn-default">Zakończ ocenianie</button>

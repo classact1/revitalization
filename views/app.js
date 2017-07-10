@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 let Revit = require('./revit');
 let Admin = require('./admin');
+let Grade = require('./grade');
 
 class App extends React.Component{
    render(){
@@ -12,6 +13,7 @@ class App extends React.Component{
               <div>
                   <Route exact path={'/'} component={Revit}></Route>
                   <Route path={'/admin'} component={Admin}></Route>
+                  <Route path={'/grade'} component={Grade}></Route>
               </div>
            </Router>
        )
