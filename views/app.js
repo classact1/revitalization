@@ -6,6 +6,9 @@ let Revit = require('./revit');
 let Admin = require('./admin');
 let Grade = require('./grade');
 
+//super stupid no other way without Redux
+window.points = {};
+
 class App extends React.Component{
    render(){
        return(

@@ -23,6 +23,7 @@ class Revit extends React.Component{
         this.closeModal = this.closeModal.bind(this);
         this.showModal = this.showModal.bind(this);
         this.saveAnswer = this.saveAnswer.bind(this);
+        this.enableGrading = this.enableGrading.bind(this);
     }
 
     //fetching data from database
@@ -35,7 +36,7 @@ class Revit extends React.Component{
         .then(response => response.json())
         .then(result => {
           let questionsObject = {};
-          result.forEach(question => questionsObject[question] = {answer: '', points: ''});
+          result.forEach(question => questionsObject[question] = {answer: '', points: 0});
           this.setState({savedAnswers: questionsObject});
         });
     }
@@ -67,6 +68,9 @@ class Revit extends React.Component{
       answers[question].points = points;
       answers[question].answer = answer;
       this.setState({savedAnswers: answers});
+      //saving answers in global object for grade component to use
+      //no better way without redux
+      window.points = answers;
     }
 
     //passed to Modal component to close it when X is clicked
@@ -79,6 +83,12 @@ class Revit extends React.Component{
       this.setState({isModalOpen: true, modalData: answers});
     }
 
+    enableGrading(e){
+      for(let question in this.state.savedAnswers)
+        if(this.state.savedAnswers[question].answer == '')
+          e.preventDefault();
+    }
+
     render(){
         return (
           <div className="container-fluid">
@@ -86,8 +96,7 @@ class Revit extends React.Component{
             {this.prepareQuestions()}
             <Link to="/admin"></Link>
             <Modal isOpen={this.state.isModalOpen} close={this.closeModal} answers={this.state.modalData}/>
-
-            <Link to="/grade" className="btn btn-default">Zakończ ocenianie</Link>
+            <Link to="/grade" className="btn btn-default" onClick={this.enableGrading}>Zakończ ocenianie</Link>
           </div>
         )
     }
